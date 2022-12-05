@@ -1,14 +1,60 @@
 {
-  "name": "docker-api-deploy",
-  "version": "1.0.0",
-  "description": "",
-  "main": "sever.js",
+  "name": "blog-server",
+  "version": "0.0.1",
+  "description": "Build a blog api site with koa2.",
+  "main": "main.js",
+  "author": "zgsgs <594zhaogaosheng@qq.com>",
+  "license": "MIT",
   "scripts": {
-    "start": "node ./sever.js"
+    "dev": "cross-env NODE_ENV=development nodemon --inspect --trace-warnings ./src/main.js",
+    "start": "cross-env NODE_ENV=development node src/main.js",
+    "server": "cross-env NODE_ENV=development nodemon ./src/main.js",
+    "pro": "cross-env NODE_ENV=production node app/index.js",
+    "test": "mocha -u bdd --compilers js:babel-core/register",
+    "docs": "apidoc -i src/controllers -o apidoc/",
+    "clean": "rm -rf node_modules"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "koa2"
+  ],
+  "engines": {
+    "node": ">= 4"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@": "./src",
+    "@models": "./src/models",
+    "@mongo": "./src/models/mongo/schema",
+    "@mysql": "./src/models/mysql/schema",
+    "@api": "./src/controllers"
+  },
   "dependencies": {
-    "express": "^4.18.1"
+    "bcryptjs": "^2.4.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-logger": "^3.2.1",
+    "koa-passport": "^4.1.4",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.15",
+    "mysql2": "^2.2.5",
+    "passport-jwt": "^4.0.0",
+    "require-directory": "^2.1.1",
+    "sequelize": "^6.6.2",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "clear": "^0.1.0",
+    "colors": "^1.4.0",
+    "ip": "^1.1.5",
+    "log4js": "^6.3.0",
+    "mocha": "^9.0.1",
+    "nodemon": "^2.0.7"
   }
 }

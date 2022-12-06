@@ -1,4 +1,4 @@
-module.exports = Object.freeze({
+const errorMsg = Object.freeze({
   0: 'ok',
   400: 'Invalid param',
   401: 'Unauthorized',
@@ -9,3 +9,5 @@ module.exports = Object.freeze({
   1001: 'Some custom error msg',
   4001: 'Parameter verification failed',
 })
+
+module.exports = errorMsg

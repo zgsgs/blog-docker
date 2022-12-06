@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-module.exports = Object.freeze({
+const keys = Object.freeze({
   secretOrKey: 'jasonZgs',
   mongo: {
     URI: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_IP}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`,
@@ -15,3 +15,5 @@ module.exports = Object.freeze({
     maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小
   },
 })
+
+module.exports = keys

@@ -23,6 +23,7 @@
   "_moduleAliases": {
     "@root": ".",
     "@": "./src",
+    "@config": "./config",
     "@models": "./src/models",
     "@mongo": "./src/models/mongo/schema",
     "@mysql": "./src/models/mysql/schema",

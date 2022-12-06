@@ -7,7 +7,7 @@ const validateRegisterInput = require('@/validation/register')
 const validateLoginInput = require('@/validation/login')
 // import User
 const User = require('@mysql/User')
-const { enbcrypt, compare, jwtSign, formatResponse } = require('@/utils/tools')
+const { enbcrypt, compare, jwtSign } = require('@/utils/tools')
 const { constants } = require('@root/config')
 const { CustomError, HttpError } = require('@/utils/error')
 const keys = require('@root/config/keys')
@@ -23,7 +23,7 @@ const router = new Router()
  */
 router.get('/test', async ctx => {
   ctx.log.info('ctx测试log4js')
-  ctx.body = { msg: 'auth-user works...' }
+  ctx.success({ msg: 'auth-user works...' })
 })
 
 /**
@@ -64,10 +64,10 @@ router.post('/register', async ctx => {
   await uthUser
     .save()
     .then(user => {
-      ctx.body = user
+      ctx.success({data: user})
     })
     .catch(err => {
-      ctx.body = err
+      ctx.fail({msg: err})
     })
 })
 
@@ -98,23 +98,12 @@ router.post('/login', async ctx => {
   const refresh_token = jwtSign(payload, expire * 12 * 7) // 过期时间7天
   const isCompare = await compare(password, pwd)
   if (isCompare) {
-    ctx.body = formatResponse(2000, 'ok', { uuid, expire, access_token, refresh_token })
+    ctx.success({ data: { uuid, expire, access_token, refresh_token } })
   } else {
     throw new CustomError(constants.CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, { password: '密码错误' })
   }
 })
-/**
- * @route POST api/auth/user/redirect
- * @desc: 路由重定向
- * @access: public
- * @param {*}
- * @return {*}
- */
-router.get('/redirect', async ctx => {
-  ctx.status = 304
-  ctx.response.redirect('/')
-  ctx.response.body = '<a href="/">Redirect Page</a>'
-})
+
 /**
  * @route POST api/auth/user/current
  * @desc: 跨表查询用户当前信息
@@ -124,7 +113,7 @@ router.get('/redirect', async ctx => {
  */
 router.get('/current', passport.authenticate('jwt', { session: false }), async ctx => {
   const { id, name, email, avatar } = ctx.state.user
-  ctx.body = { id, name, email, avatar }
+  ctx.success({ data: { id, name, email, avatar } })
 })
 /**
  * @route POST api/auth/user/avatar
@@ -141,8 +130,10 @@ router.post('/avatar', passport.authenticate('jwt', { session: false }), async c
   const stream = fs.createWriteStream(path.join('../../public/images', file.name))
   reader.pipe(stream)
   ctx.log.info(`uploading ${file.name} -> ${stream.path}`)
+  // 路径写入用户表
+  const url = `${ctx.origin}/${keys.upload.dir}${basename}`
 
-  ctx.body = { url: `${ctx.origin}/${keys.upload.dir}${basename}` }
+  ctx.success({ data: { url } })
 })
 
 module.exports = router.routes()

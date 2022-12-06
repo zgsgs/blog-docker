@@ -11,9 +11,7 @@ const { constants } = require('@root/config')
 const { CustomError, HttpError } = require('@/utils/error')
 const keys = require('@root/config/keys')
 
-const router = new Router({
-  // prefix: '/user/info'
-})
+const router = new Router()
 
 /**
  * @route GET api/users/test
@@ -23,19 +21,14 @@ const router = new Router({
  * @return {*}
  */
 router.get('test', '/test', async (ctx, next) => {
-  ctx.log.info('ctx测试log4js')
-  ctx.body = { msg: '测试路由' }
+  ctx.log.info('/test - ctx测试log4js')
+  ctx.success({ msg: '测试路由' })
   await next()
 })
 
 router.get('testId', '/test/:id', async (ctx, next) => {
-  ctx.log.info('ctx测试log4js')
-  ctx.body = { msg: `匹配路由id = ${ctx.params.id}` }
+  ctx.log.info('/test/:id - ctx测试log4js')
+  ctx.success({ msg: `匹配路由id = ${ctx.params.id}` })
 })
-
-// router.all('/*', async (ctx, next) => {
-//   ctx.set('Access-Control-Allow-Origin', 'http://baidu.com')
-//   await next()
-// })
 
 module.exports = router.routes()

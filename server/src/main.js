@@ -1,5 +1,6 @@
 require('module-alias/register')
 const koa = require('koa')
+
 // Instantiate koa
 const app = new koa()
 // Initialize Models before import passport

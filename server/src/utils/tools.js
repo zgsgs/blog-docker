@@ -14,8 +14,4 @@ module.exports = {
   jwtSign: (payload, expire = 3600) => {
     return jwt.sign(payload, keys.secretOrKey, { expiresIn: expire })
   },
-  formatResponse: (code = 2000, msg = 'ok', data = {}) => {
-    const time = new Date().getTime()
-    return { code, msg, data }
-  },
 }

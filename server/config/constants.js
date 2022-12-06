@@ -1,5 +1,7 @@
-module.exports = Object.freeze({
+const constants = Object.freeze({
+  // 更多状态码请看 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200
   HTTP_CODE: {
+    OK: 200,
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
@@ -12,3 +14,5 @@ module.exports = Object.freeze({
     PARAM_VALIDATION_FAILED: 4001,
   }
 })
+
+module.exports = constants

@@ -1,5 +1,5 @@
 const errorMsg = Object.freeze({
-  0: 'ok',
+  200: 'ok',
   400: 'Invalid param',
   401: 'Unauthorized',
   403: 'Forbidden',

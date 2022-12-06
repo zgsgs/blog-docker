@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const fs = require('fs')
 const path = require('path')
-const router = new Router({ prefix: '/api' })
+const router = new Router({ prefix: '/api/v1' })
 
 // 自动加载注册路由
 const files = fs.readdirSync(path.join(__dirname, '../controllers'))

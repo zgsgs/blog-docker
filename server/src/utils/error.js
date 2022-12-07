@@ -32,9 +32,8 @@ function CustomError(code, msg, data = {}) {
  * @return {*}
  */
 function HttpError(code, msg) {
-  if (Object.values(HTTP_CODE).indexOf(code) < 0) {
-    throw Error('Not an invalid http code')
-  }
+  if (!Object.values(HTTP_CODE).includes(code))
+    throw new Error('Not an invalid http code')
 
   CustomError.call(this, code, msg)
 }

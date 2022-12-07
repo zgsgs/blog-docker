@@ -12,7 +12,8 @@
     "pro": "cross-env NODE_ENV=production node app/index.js",
     "test": "mocha -u bdd --compilers js:babel-core/register",
     "docs": "apidoc -i src/controllers -o apidoc/",
-    "clean": "rm -rf node_modules"
+    "clean": "rm -rf node_modules",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "keywords": [
     "koa2"
@@ -51,11 +52,16 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.33.1",
     "clear": "^0.1.0",
     "colors": "^1.4.0",
+    "eslint": "^8.29.0",
     "ip": "^1.1.5",
     "log4js": "^6.3.0",
     "mocha": "^9.0.1",
     "nodemon": "^2.0.7"
+  },
+  "eslintConfig": {
+    "extends": "@antfu"
   }
 }

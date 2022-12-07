@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const keys = require('@root/config/keys')
 
 module.exports = {
-  enbcrypt: async str => {
+  enbcrypt: async (str) => {
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(str, salt)
     return { hash, salt }

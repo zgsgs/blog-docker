@@ -13,7 +13,7 @@ const baseInfo = {
   serverIp: '0.0.0.0', // 默认情况下服务器 ip 地址
 }
 
-const Logger = options => {
+const Logger = (options) => {
   const logger = log4js.getLogger('cheese')
   const contextLogger = {}
   const appenders = {}
@@ -39,7 +39,7 @@ const Logger = options => {
     pattern: '-yyyy-MM-dd.log',
     alwaysIncludePattern: true,
   }
-  let config = {
+  const config = {
     appenders,
     categories: {
       default: {
@@ -50,8 +50,8 @@ const Logger = options => {
   }
 
   // 挂载日志方法
-  methods.forEach(method => {
-    contextLogger[method] = message => {
+  methods.forEach((method) => {
+    contextLogger[method] = (message) => {
       logger[method](message)
     }
   })
@@ -74,7 +74,7 @@ const Logger = options => {
       serverIp,
       ip,
       projectName,
-      referer: headers['referer'],
+      referer: headers.referer,
       userAgent: headers['user-agent'],
       body: bodyParams ? JSON.stringify(bodyParams) : '',
       time: moment().format('YYYY-MM-DD HH:mm:ss'),

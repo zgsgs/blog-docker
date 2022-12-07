@@ -1,16 +1,4 @@
 const Router = require('koa-router')
-const passport = require('koa-passport')
-const fs = require('fs')
-const path = require('path')
-// import form validate
-const validateRegisterInput = require('@/validation/register')
-// import UserInfo
-const UserInfo = require('@mysql/UserInfo')
-const tools = require('@/utils/tools')
-const { constants } = require('@root/config')
-const { CustomError, HttpError } = require('@/utils/error')
-const keys = require('@root/config/keys')
-
 const router = new Router()
 
 /**

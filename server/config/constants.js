@@ -7,12 +7,12 @@ const constants = Object.freeze({
     FORBIDDEN: 403,
     NOT_FOUND: 404,
     INTERNAL_SERVER_ERROR: 500,
-    SERVICE_BUSY: 503
+    SERVICE_BUSY: 503,
   },
   CUSTOM_CODE: {
     SOME_CUSTOM_ERROR: 1001,
     PARAM_VALIDATION_FAILED: 4001,
-  }
+  },
 })
 
 module.exports = constants

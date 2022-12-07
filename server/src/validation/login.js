@@ -7,8 +7,8 @@ const isEmpty = require('./is-empty')
  * @param {Object} validateLoginInput
  * @return {Object} isValid
  */
-module.exports = validateLoginInput = data => {
-  let errors = {}
+const validateLoginInput = (data) => {
+  const errors = {}
   let { phone, email, password } = data
   phone = !isEmpty(phone) ? phone : ''
   email = !isEmpty(email) ? email : ''
@@ -26,3 +26,5 @@ module.exports = validateLoginInput = data => {
     isValid: isEmpty(errors),
   }
 }
+
+module.exports = validateLoginInput

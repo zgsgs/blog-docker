@@ -9,7 +9,7 @@ const router = new Router()
  * @param {*}
  * @return {*}
  */
- router.get('/test', async ctx => {
+router.get('/test', async (ctx) => {
   ctx.log.info('/test - ctx测试log4js')
   ctx.success({ msg: 'root router test works...' })
 })
@@ -21,7 +21,7 @@ const router = new Router()
  * @param {*}
  * @return {*}
  */
-router.get('/redirect', async ctx => {
+router.get('/redirect', async (ctx) => {
   ctx.status = 304
   ctx.response.redirect('/')
   ctx.response.body = '<a href="/">Redirect Page</a>'
@@ -38,7 +38,7 @@ router.get('/redirect', async ctx => {
  * @param {*}
  * @return {*}
  */
-router.get('/redirect', async ctx => {
+router.get('/redirect', async (ctx) => {
   ctx.status = 304
   ctx.response.redirect('/')
   ctx.response.body = '<a href="/">Redirect Page</a>'

@@ -1,19 +1,25 @@
-function jsonResponse(option = { type: 'json', successCode: 200, successMsg: 'ok', failCode: -1, failMsg: 'fail' }) {
+function jsonResponse(option = {
+  type: 'json',
+  successCode: 2000,
+  successMsg: 'ok',
+  failCode: -1,
+  failMsg: 'fail',
+}) {
   return async (ctx, next) => {
-    ctx.success = function(opt={}) {
+    ctx.success = function (opt = {}) {
       ctx.type = opt.type || option.type
       ctx.body = {
         code: opt.code || option.successCode,
         msg: opt.msg || option.successMsg,
-        data: opt.data
+        data: opt.data,
       }
     }
-    ctx.fail = function(opt={}) {
+    ctx.fail = function (opt = {}) {
       ctx.type = opt.type || option.type
       ctx.body = {
         code: opt.code || option.failCode,
         msg: opt.msg || option.successMsg,
-        data: null
+        data: null,
       }
     }
     await next()

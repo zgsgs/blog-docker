@@ -1,17 +1,17 @@
 const koaPassport = require('koa-passport')
-const router = require('@/routes')
 const error = require('./error')
 const logger = require('./logger/logger')
 const passport = require('./passport')
-const static = require('./static')
+const koaStatic = require('./koa-static')
 const body = require('./body')
 const cors = require('./cors')
 const jsonResponse = require('./json-response')
+const router = require('@/routes')
 
-module.exports = async app => {
+module.exports = async (app) => {
   app.use(logger())
   app.use(error())
-  app.use(static())
+  app.use(koaStatic())
   app.use(body())
   app.use(cors())
   // 统一格式化输出

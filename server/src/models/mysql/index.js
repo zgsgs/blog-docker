@@ -1,8 +1,8 @@
 require('colors')
 require('dotenv').config()
-const Sequelize = require('sequelize')
 const fs = require('fs')
 const path = require('path')
+const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, process.env.MYSQL_PWD, {
   host: process.env.MYSQL_IP, // 数据库地址
@@ -20,25 +20,27 @@ const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, pr
     underscored: true,
     charset: 'utf8mb4',
   },
+  // eslint-disable-next-line no-console
   logging: (...msg) => console.log(msg), // 使用自定义记录器,显示第一个参数
 })
 
 sequelize
   .authenticate()
-  .then(r => {
+  .then((r) => {
     // 加载mysql模型
     const files = fs.readdirSync(path.join(__dirname, 'schema'))
     try {
-      for (let file of files) {
+      for (const file of files) {
         const fileExtension = file.substring(file.lastIndexOf('.') + 1)
-        if (fileExtension !== 'js') {
+        if (fileExtension !== 'js')
           continue
-        }
+
         const fileName = file.replace(/(.*\/)*([^.]+).*/gi, '$2')
         require(`./schema/${fileName}`)
       }
-    } catch (error) {
-      console.log(error)
+    }
+    catch (error) {
+      console.error(error)
     }
 
     // 同步模型到数据库
@@ -55,10 +57,11 @@ sequelize
     //     throw new Error(`${'sync'.red}: MySQL sync fail 😂`.red, r)
     //   })
 
+    // eslint-disable-next-line no-console
     console.log(`${'debug'.green}: MySQL connected success ❤️`.blue)
   })
-  .catch(r => {
-    throw new Error(`${'debug'.red}: MySQL connected fail 😂`.red, r)
+  .catch((r) => {
+    throw new Error(`${'debug'.red}: MySQL connected fail 😂`, r)
   })
 
 module.exports = sequelize

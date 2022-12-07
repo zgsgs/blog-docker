@@ -1,10 +1,10 @@
-function jsonResponse(option = {
+module.exports = (option = {
   type: 'json',
   successCode: 2000,
   successMsg: 'ok',
   failCode: -1,
   failMsg: 'fail',
-}) {
+}) => {
   return async (ctx, next) => {
     ctx.success = function (opt = {}) {
       ctx.type = opt.type || option.type
@@ -25,5 +25,3 @@ function jsonResponse(option = {
     await next()
   }
 }
-
-module.exports = jsonResponse

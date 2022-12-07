@@ -11,6 +11,7 @@ const constants = Object.freeze({
   },
   CUSTOM_CODE: {
     SOME_CUSTOM_ERROR: 1001,
+    OK: 2000,
     PARAM_VALIDATION_FAILED: 4001,
   },
 })

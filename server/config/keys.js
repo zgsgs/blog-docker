@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const keys = Object.freeze({
-  secretOrKey: 'jasonZgs',
+  secretOrKey: 'Jason Up',
   mongo: {
     URI: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_IP}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`,
   },

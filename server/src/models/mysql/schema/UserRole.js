@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('@models/mysql')
 // const AuthRole = require('./AuthRole')
-// const User = require('./User')
+// const Users = require('./Users')
 
 const UserRole = sequelize.define('UserRole', {
   id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, unique: true, autoIncrement: true, comment: '流水号' },
@@ -16,7 +16,7 @@ const UserRole = sequelize.define('UserRole', {
   updated_at: { type: DataTypes.DATE, comment: '更新时间', defaultValue: DataTypes.DATE },
 })
 
-// User.belongsToMany(AuthRole, { through: UserRole })
-// AuthRole.belongsToMany(User, { through: UserRole })
+// Users.belongsToMany(AuthRole, { through: UserRole })
+// AuthRole.belongsToMany(Users, { through: UserRole })
 
 module.exports = UserRole

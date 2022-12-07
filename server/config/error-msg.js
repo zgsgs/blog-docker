@@ -8,6 +8,7 @@ const errorMsg = Object.freeze({
   503: 'Service busy',
   1001: 'Some custom error msg',
   4001: 'Parameter verification failed',
+  4004: '用户不存在',
 })
 
 module.exports = errorMsg

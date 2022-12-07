@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('@models/mysql')
-// const User = require('./User')
+// const Users = require('./Users')
 // const AuthPermit = require('./AuthPermit')
 
 const UserPermit = sequelize.define('UserPermit', {
@@ -16,7 +16,7 @@ const UserPermit = sequelize.define('UserPermit', {
   updated_at: { type: DataTypes.DATE, comment: '更新时间', defaultValue: DataTypes.DATE },
 })
 
-// User.belongsToMany(AuthPermit, { through: UserPermit })
-// AuthPermit.belongsToMany(User, { through: UserPermit })
+// Users.belongsToMany(AuthPermit, { through: UserPermit })
+// AuthPermit.belongsToMany(Users, { through: UserPermit })
 
 module.exports = UserPermit

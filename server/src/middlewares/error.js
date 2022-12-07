@@ -14,7 +14,7 @@ module.exports = (options) => {
       }
       else {
         ctx.status = HTTP_CODE.INTERNAL_SERVER_ERROR
-        console.error('err', err)
+        console.error('error', err)
         ctx.log.error(JSON.stringify(err))
         ctx.throw(err)
       }

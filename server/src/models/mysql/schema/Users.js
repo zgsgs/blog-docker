@@ -12,7 +12,7 @@ const sequelize = require('@models/mysql')
 // const UserLoginLog = require('./UserLoginLog')
 // const UserOperateLog = require('./UserOperateLog')
 
-const User = sequelize.define('User', {
+const Users = sequelize.define('Users', {
   id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, unique: true, autoIncrement: true, comment: '流水号' },
   status: { type: DataTypes.INTEGER, allowNull: false, comment: '状态 0-未启用', defaultValue: 0 },
   uuid: { type: DataTypes.STRING, allowNull: false, unique: true, comment: 'uuid用户唯一标识', defaultValue: DataTypes.UUIDV4 },
@@ -33,16 +33,16 @@ const User = sequelize.define('User', {
   updated_at: { type: DataTypes.DATE, comment: '更新时间', defaultValue: DataTypes.DATE },
 })
 
-// User.Auth = User.hasMany(Auth)
-// User.Blog = User.hasMany(Blog)
-// User.UserInfo = User.hasOne(UserInfo)
-// User.UserEducation = User.hasMany(UserEducation)
-// User.UserExperience = User.hasMany(UserExperience)
-// User.UserFocus = User.hasMany(UserFocus)
-// User.UserBehavior = User.hasMany(UserBehavior)
-// User.UserProperty = User.hasMany(UserProperty)
-// User.UserHistory = User.hasMany(UserHistory)
-// User.UserLoginLog = User.hasMany(UserLoginLog)
-// User.UserOperateLog = User.hasMany(UserOperateLog)
+// Users.Auth = Users.hasMany(Auth)
+// Users.Blog = Users.hasMany(Blog)
+// Users.UserInfo = Users.hasOne(UserInfo)
+// Users.UserEducation = Users.hasMany(UserEducation)
+// Users.UserExperience = Users.hasMany(UserExperience)
+// Users.UserFocus = Users.hasMany(UserFocus)
+// Users.UserBehavior = Users.hasMany(UserBehavior)
+// Users.UserProperty = Users.hasMany(UserProperty)
+// Users.UserHistory = Users.hasMany(UserHistory)
+// Users.UserLoginLog = Users.hasMany(UserLoginLog)
+// Users.UserOperateLog = Users.hasMany(UserOperateLog)
 
-module.exports = User
+module.exports = Users

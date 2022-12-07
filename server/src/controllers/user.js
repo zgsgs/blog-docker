@@ -1,16 +1,15 @@
-const fs = require('fs')
-const path = require('path')
 const Router = require('koa-router')
 const passport = require('koa-passport')
 // import form validate
-const User = require('@mysql/User')
-const { constants } = require('@root/config')
+const Users = require('@mysql/Users')
+const { CUSTOM_CODE } = require('@root/config/constants')
 const keys = require('@root/config/keys')
 const validateRegisterInput = require('@/validation/register')
 const validateLoginInput = require('@/validation/login')
-// import User
-const { enbcrypt, compare, jwtSign } = require('@/utils/tools')
+// import Users
+const { enbcrypt, compare, jwtSign } = require('@/utils/jwt')
 const { CustomError } = require('@/utils/error')
+const { upload } = require('@/utils/file')
 
 const router = new Router()
 
@@ -36,19 +35,19 @@ router.get('/test', async (ctx) => {
 router.post('/register', async (ctx) => {
   const { errors, isValid } = validateRegisterInput(ctx.request.body)
   if (!isValid)
-    throw new CustomError(constants.CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, errors)
+    throw new CustomError(CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, errors)
 
   const { phone, password, name, email, code } = ctx.request.body
   let { avatar } = ctx.request.body
-  const findResult = await User.findAll({ where: { phone } })
+  const findResult = await Users.findAll({ where: { phone } })
   if (findResult.length > 0)
-    throw new CustomError(constants.CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, { phone: '手机号已被占用' })
+    throw new CustomError(CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, { phone: '手机号已被占用' })
 
   const { hash, salt } = await enbcrypt(password)
   if (!avatar)
     avatar = `https://api.multiavatar.com/${name}.svg`
 
-  const uthUser = await User.build({
+  const uthUser = await Users.build({
     name: name || phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'),
     phone,
     password: hash,
@@ -82,25 +81,22 @@ router.post('/login', async (ctx) => {
   ctx.log.info(ctx.request.body)
   const { errors, isValid } = validateLoginInput(ctx.request.body)
   if (!isValid)
-    throw new CustomError(constants.CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, errors)
+    throw new CustomError(CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, errors)
 
-  const { phone, email, password } = ctx.request.body
-  const loginName = phone ? { phone } : { email }
-  const findResult = await User.findAll(loginName)
-  if (findResult.length === 0)
-    throw new CustomError(4004, '用户不存在')
+  const { phone, password } = ctx.request.body
+  const result = await Users.findOne({ where: { phone } })
+  if (!result)
+    throw new CustomError(CUSTOM_CODE.USER_NOT_FOUND)
 
-  const user = findResult[0]
-  const { uuid, name, avatar, password: pwd } = user
-  const payload = { uuid, name, avatar }
-  const expire = 7200
-  const access_token = jwtSign(payload, expire) // 过期时间2小时
-  const refresh_token = jwtSign(payload, expire * 12 * 7) // 过期时间7天
+  const { id, uuid, name, avatar, password: pwd } = result
+  const payload = { id, uuid, name, avatar }
+  const access_token = `Bearer ${jwtSign(payload, keys.accessExpire)}`
+  const refresh_token = `Bearer ${jwtSign(payload, keys.refreshExpire)}`
   const isCompare = await compare(password, pwd)
   if (isCompare)
-    ctx.success({ data: { uuid, expire, access_token, refresh_token } })
+    ctx.success({ data: { id, expire: keys.accessExpire, access_token, refresh_token } })
   else
-    throw new CustomError(constants.CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, { password: '密码错误' })
+    throw new CustomError(CUSTOM_CODE.PARAM_VALIDATION_FAILED, null, { password: '密码错误' })
 })
 
 /**
@@ -111,8 +107,9 @@ router.post('/login', async (ctx) => {
  * @return {JSON}
  */
 router.get('/current', passport.authenticate('jwt', { session: false }), async (ctx) => {
-  const { id, name, email, avatar } = ctx.state.user
-  ctx.success({ data: { id, name, email, avatar } })
+  const { id, name, avatar } = ctx.state.user
+  ctx.success({ data: { id, name, avatar } })
+  // ctx.success({ data: ctx.state })
 })
 /**
  * @route POST api/auth/user/avatar
@@ -122,17 +119,13 @@ router.get('/current', passport.authenticate('jwt', { session: false }), async (
  * @return {JSON}
  */
 router.post('/avatar', passport.authenticate('jwt', { session: false }), async (ctx) => {
-  // const { id } = ctx.state.user
-  const file = ctx.request.files.file
-  const basename = path.basename(file.path)
-  const reader = fs.createReadStream(file.path)
-  const stream = fs.createWriteStream(path.join('../../public/images', file.name))
-  reader.pipe(stream)
-  ctx.log.info(`uploading ${file.name} -> ${stream.path}`)
+  const { id } = ctx.state.user
+  const url = upload(ctx, { dirName: 'images' })
   // 路径写入用户表
-  const url = `${ctx.origin}/${keys.upload.dir}${basename}`
+  await Users.update({ avatar: url }, { where: { id } })
+  const user = await Users.findOne({ where: { id } })
 
-  ctx.success({ data: { url } })
+  ctx.success({ data: user })
 })
 
 module.exports = router.routes()

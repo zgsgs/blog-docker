@@ -1,19 +1,27 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const JwtStrategy = Strategy
-const { keys: config } = require('@root/config')
-const User = require('@mysql/User')
+const { secretOrKey } = require('@root/config/keys')
+const Users = require('@mysql/Users')
+// mysql
+// mongodb
+// const mongoose = require('mongoose')
+// const Users = mongoose.model('users')
 
-const opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.secretOrKey = config.secretOrKey
 module.exports = (passport) => {
   passport.use(
-    new JwtStrategy(opts, async (jwt_payload, done) => {
-      const user = await User.findAll({ where: { id: jwt_payload.id } })
-      if (!user)
-        return done(null, false)
+    new JwtStrategy({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey,
+    },
+    async (jwt_payload, done) => {
+      // mysql
+      const user = await Users.findOne({ where: { id: jwt_payload.id } })
+      // mongodb
+      // const user = await Users.findById(jwt_payload.id)
+      if (user)
+        return done(null, user)
 
-      return done(null, user)
+      return done(null, false, '用户不存在')
     }),
   )
 }

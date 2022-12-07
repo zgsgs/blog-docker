@@ -15,7 +15,7 @@
 - type 定义数据类型
 - defaultValue 定义默认值
 - primaryKey 主键约束
-- unique 唯一性约束 属性可以是布尔值或字符串 如果为多个列提供相同的字符串,则它们将形成一个复合唯一键 
+- unique 唯一性约束 属性可以是布尔值或字符串 如果为多个列提供相同的字符串,则它们将形成一个复合唯一键
 - autoIncrement 自动递增 可用于创建 auto_incrementing 整数列
 - field 指定自定义列名称
 - comment 注释只能添加到 MySQL,MariaDB,PostgreSQL 和 MSSQL 的列中
@@ -30,9 +30,9 @@
 
 ### 模型同步
 
-- `User.sync()` - 如果表不存在,则创建该表(如果已经存在,则不执行任何操作)
-- `User.sync({ force: true })` - 将创建表,如果表已经存在,则将其首先删除
-- `User.sync({ alter: true })` - 这将检查数据库中表的当前状态(它具有哪些列,它们的数据类型等),然后在表中进行必要的更改以使其与模型匹配.
+- `Users.sync()` - 如果表不存在,则创建该表(如果已经存在,则不执行任何操作)
+- `Users.sync({ force: true })` - 将创建表,如果表已经存在,则将其首先删除
+- `Users.sync({ alter: true })` - 这将检查数据库中表的当前状态(它具有哪些列,它们的数据类型等),然后在表中进行必要的更改以使其与模型匹配.
 
 #### 一次同步所有
 
@@ -118,7 +118,7 @@ DataTypes.DATEONLY   // 不带时间的 DATE
 对于 UUID,使用 `DataTypes.UUID`. 对于 PostgreSQL 和 SQLite,它会是 `UUID` 数据类型;对于 MySQL,它则变成`CHAR(36)`. Sequelize 可以自动为这些字段生成 UUID,只需使用 `Sequelize.UUIDV1` 或 `Sequelize.UUIDV4` 作为默认值即可：
 
 ```js
-{  type: DataTypes.UUID,  
+{  type: DataTypes.UUID,
    defaultValue: Sequelize.UUIDV4 // 或 Sequelize.UUIDV1
 }
 ```

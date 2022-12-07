@@ -1,7 +1,7 @@
-const tools = require('./tools')
+const jwt = require('./jwt')
 const errorHandle = require('./error-handle')
 
 module.exports = {
-  tools,
+  jwt,
   errorHandle,
 }

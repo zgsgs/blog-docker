@@ -4,7 +4,7 @@ FROM node:16-alpine as builder
 # 定义匿名数据卷。在启动容器时忘记挂载数据卷，会自动挂载到匿名卷。
 VOLUME /tmp
 # 对外暴露端口 后端项目所使用的的容器中的端口号
-EXPOSE 7001
+EXPOSE 7011
 
 # 指定后端项目在容器的工作目录，不需要提前创建
 WORKDIR /server

@@ -52,10 +52,8 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.33.1",
     "clear": "^0.1.0",
     "colors": "^1.4.0",
-    "eslint": "^8.29.0",
     "graphql": "^16.6.0",
     "ip": "^1.1.5",
     "koa-graphql": "^0.12.0",

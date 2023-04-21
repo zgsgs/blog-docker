@@ -6,11 +6,11 @@ defineProps<{ msg: string }>()
 const count = ref(0)
 async function getApiHello() {
   const res = await fetch('/api/')
-  // console.log('hello', res)
+  console.log('hello', res)
 }
 async function getApiJson() {
   const res = await fetch('/api/json')
-  // console.log('json', res)
+  console.log('json', res)
 }
 </script>
 
@@ -41,7 +41,7 @@ async function getApiJson() {
   </p>
   <p>
     Install
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+    <a href="https://github.com/vuejs/language-tools" target="_blank">Volar</a>
     in your IDE for a better DX
   </p>
   <p class="read-the-docs">
